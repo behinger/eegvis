@@ -2,7 +2,10 @@
 
 It is a commonly observed problem with topoplots, that exporting them to .ai or .eps or .pdf results in huge vector files. The reason is, that matlab converts surface objects to small vector-triangles instead of exporting them as bitmaps (this is true if the vector renderer is active).
 
-A solution for fieldtrip can be found at [Anne Urai's Blog](https://anneurai.net/2016/11/08/rasterised-topoplots-in-fieldtrip/). A solution to eeglab is used in this toolbox or here:
+A solution for fieldtrip can be found at [Anne Urai's Blog](https://anneurai.net/2016/11/08/rasterised-topoplots-in-fieldtrip/). A solution to eeglab is used in this toolbox:
+
+
+We take the interpolated data and replot it as an imagesc plot. We then have to adapt the axis/scales and delete the surface.
 
 ```matlab
 topo_init = gca
