@@ -8,23 +8,27 @@ A solution for fieldtrip can be found at [Anne Urai's Blog](https://anneurai.net
 We take the interpolated data and replot it as an imagesc plot. We then have to adapt the axis/scales and delete the surface.
 
 ```matlab
-topo_init = gca
-topo_image = axes('Position',get(topo_init,'Position'))
-[~,cdata] = topoplot(data(k,:),chanlocs,topoargin{:});
+function topoplot_vectorized(varargin)
+    % figure,topoplot_vectorized(1:64,EEG.chanlocs)
+    topo_init = gca;
+    [~,cdata] = topoplot(varargin{:});
+    topo_image = axes('Position',get(topo_init,'Position'));
+    uistack(topo_image,'bottom')
+    % We delete the surface and replace it with a imagesc plot. This
+    % allows for better exporting.
+    delete(findobj(topo_init,'Type','surface'))
 
-
-% We delete the surface and replace it with a imagesc plot. This
-% allows for better exporting.
-delete(findobj(topo_init,'Type','surface'))
-
-% Generate a new axis to plot the imagesc plot
-h = imagesc(topo_image,cdata);
-set(topo_image,'YDir','normal');
-axis(topo_image,'square','off')
-set(h,'alphadata',~isnan(cdata))
-caxis(topo_image,scale)
-% Change the respective colormap
-colormap(topo_image,squeeze(cMap.topo(row,:,:)))
+    % Generate a new axis to plot the imagesc plot
+    h = imagesc(topo_image,cdata);
+    set(topo_image,'YDir','normal');
+    axis(topo_image,'square','off')
+    set(h,'alphadata',~isnan(cdata))
+    caxis(topo_image,caxis(topo_init))
+    % Change the respective colormap
+    colormap(topo_image,colormap(topo_init))
+end
 ```
 
 Be sure to force the renderer to be 'painters' (vector format). In the figure use File - Export Setup - Rendering - Custom Renderer
+
+You could use 'gridscale',120 (67 default) for higher resolution in the rastered part of the vector file.
