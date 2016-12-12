@@ -26,3 +26,5 @@ caxis(topo_image,scale)
 % Change the respective colormap
 colormap(topo_image,squeeze(cMap.topo(row,:,:)))
 ```
+
+Be sure to force the renderer to be 'painters' (vector format). In the figure use File - Export Setup - Rendering - Custom Renderer
