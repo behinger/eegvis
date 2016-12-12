@@ -31,4 +31,4 @@ end
 
 Be sure to force the renderer to be 'painters' (vector format). In the figure use File - Export Setup - Rendering - Custom Renderer
 
-You could use 'gridscale',120 (67 default) for higher resolution in the rastered part of the vector file.
+You could use ``` 'gridscale',120``` (67 default) for higher resolution in the rastered part of the vector file.
