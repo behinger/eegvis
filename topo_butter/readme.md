@@ -9,8 +9,12 @@ in Ehinger et al. 2015 J. Neurosci.
 http://www.jneurosci.org/content/35/19/7403
 
 ### Install:
+```
 git clone https://github.com/behinger/eegvis
+```
+``` matlab
 addpath(genpath('eegvis'))
+```
 
 You need eeglab in your path and activated.
 
