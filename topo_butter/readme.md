@@ -25,6 +25,7 @@ This plot shows the beta-values in the first toporow, STD over subjects in the s
 ```matlab
 plot_main(EEG.data(:,:,[1 2 3]),EEG.times,EEG.chanlocs,'pvalues',EEG.data(:,:,3),'highlighted_channel',10,'colormap',{{'div','RdYlBu'},{'seq','YlGnBu'},'seq'},'topoalpha',0.005)
 ```
+EEG.data in this example is a matrix of [nchans x ntimes x 3], with the three dimension being 'amplitude','standard deviation','p-value'. Thee EEG.times is a [1 x ntimes] matrix giving the time of the samples. EEG.chanlocs is a chanloc-struct compatible with eeglab that contains the spatial information of channel-location.
 
 #### How to plot p-values on a log scale:
 It seems to make sense to plot p-values on a log scale. In order to not
