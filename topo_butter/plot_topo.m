@@ -7,6 +7,8 @@ g = finputcheck(varargin,...
     'time','real',[min(inp_times), max(inp_times)],[]; % specify the time to plot the topoplots in
     'topoalpha','real',[],0.05; % change the statistical alpha-value indicating significant electrodes
     'contour','string',{'yes','no'},'yes'; % activate/deactive contour
+    'individualcontour','string',{'yes','no'},'no'; % do not put the contour lines on the same value
+    'individualcolormap','string',{'yes','no'},'no'; % do not put the same caxis limit for all colormaps
     'colormap','cell',{},{'div'}; % customized colorbars are possible: {{'div','RdYlBu'},{'div','BrBG'},'seq'}. The whole set of colorbrewer is available
     'n_rows','integer',[1 1:size(inp_data,3)],size(inp_data,3); % number of rows to be used, by default plots one row per third-dimension entry of EEG.data. But it is possible to skip some*
     'numcontour','integer',[],6; % How many contour lines
@@ -119,8 +121,11 @@ for row = 1:g.n_rows
         end
     end
     
-    
+    if ~isempty(g.caxis)
+        scale = g.caxis;
+    else
     scale = prctile(data(:),[1 99]);
+    end
     
     % make scale symmetric for divergent colormaps
     if strcmp(cMap.ctype{row},'div')
@@ -140,8 +145,14 @@ for row = 1:g.n_rows
         
         % Make the initial topoplot
         topoargin = {'maplimits',scale,...
-            'electrodes','off',...
-            'numcontour',contourvals};%,...
+            'electrodes','off','gridscale',120};
+        
+        switch g.individualcontour
+            case 'yes'
+                 topoargin = [topoargin 'numcontour',g.numcontour];
+            case'no'
+                topoargin = [topoargin 'numcontour',[contourvals]];
+        end
         if ~isempty(g.pvalues) % we want to mark significant electrodes
             emarker2 = {[find(sigElecs{k})] '.','k',10,1};
             topoargin = [topoargin 'emarker2',{emarker2}];
@@ -164,7 +175,10 @@ for row = 1:g.n_rows
         set(topo_image,'YDir','normal');
         axis(topo_image,'square','off')
         set(h,'alphadata',~isnan(cdata))
-        caxis(topo_image,scale)
+        switch g.individualcolormap
+            case 'no'
+                caxis(topo_image,scale)
+        end
         % Change the respective colormap
         colormap(topo_image,squeeze(cMap.topo(row,:,:)))
         
