@@ -170,8 +170,10 @@ for row = 1:g.n_rows
         set(findobj(topo_init,'Type','patch'),'FaceColor',background_color) % there is a patch object which hides the pixelated border of the topo-map. Hide it!
         
         % Generate a new axis to plot the imagesc plot
+        axes(topo_image); % in newer matlabversions this can be moved into imagesc, but for backwards compatibility we keep it like this
+        uistack(topo_image,'bottom'); %due to the above fix, we have to reorder. axes(topo_image) puts the topo_image axes into the front (which we dont want)
+        h = imagesc(cdata);
         
-        h = imagesc(topo_image,cdata);
         set(topo_image,'YDir','normal');
         axis(topo_image,'square','off')
         set(h,'alphadata',~isnan(cdata))
