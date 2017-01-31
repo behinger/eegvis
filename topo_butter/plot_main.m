@@ -29,6 +29,8 @@ else
     topoSize = 0;
 end
 
+assert(topoSize>0,'warning, could not determine size of topoplot. Is the data empty?')
+
 
 
 %change the  figure aspect ratio
