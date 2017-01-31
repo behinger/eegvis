@@ -89,7 +89,7 @@ end
 %% Plot the Indicator Topoplot
 hA.indicator = axes('position',topo_pos(1,1,:));
 
-topoplot([zeros(1,64)],chanlocs,'style','map','colormap',[1 1 1],...
+topoplot([zeros(1,length(chanlocs))],chanlocs,'style','map','colormap',[1 1 1],...
     'electrodes','on', 'emarker2',{g.highlighted_channel,'o','r',5,1});
 set(findobj(hA.indicator,'Type','patch'),'FaceColor',background_color) % there is a patch object which hides the pixelated border of the topo-map. Hide it!
 
@@ -170,8 +170,10 @@ for row = 1:g.n_rows
         set(findobj(topo_init,'Type','patch'),'FaceColor',background_color) % there is a patch object which hides the pixelated border of the topo-map. Hide it!
         
         % Generate a new axis to plot the imagesc plot
+        axes(topo_image); % in newer matlabversions this can be moved into imagesc, but for backwards compatibility we keep it like this
+        uistack(topo_image,'bottom'); %due to the above fix, we have to reorder. axes(topo_image) puts the topo_image axes into the front (which we dont want)
+        h = imagesc(cdata);
         
-        h = imagesc(topo_image,cdata);
         set(topo_image,'YDir','normal');
         axis(topo_image,'square','off')
         set(h,'alphadata',~isnan(cdata))
@@ -187,11 +189,18 @@ for row = 1:g.n_rows
     end
     
     %% Do the  Colorbars
+   if scale(1) == scale(2)
+        warning('min and max of data is the same, not printing colorbar. Is there any data in the topoplot at all?')
+        continue
+    end
     ax_colorbar = axes('position',topo_pos(row,end,:));
     
     colormap(ax_colorbar,squeeze(cMap.topo(row,:,:)))
     caxis(ax_colorbar,scale)
+
+    
     set(ax_colorbar, 'CLim', [scale]);% not sure if really necessary.
+    
     
     % We want only 2 (3) Ticklabels  one at the top, one at the bottom (one at 0 if divergent colormap). But all Tickmarks of the contourlines.
     % http://stackoverflow.com/questions/26917900/rounding-to-n-significant-digits

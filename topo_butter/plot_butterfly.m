@@ -61,15 +61,16 @@ set(plotAxes,'Box','off','YAxisLocation','right') % y axis to the right
 if g.minorXTicks
     set(gca,'XMinorTick','on')
 end
-if verLessThan('matlab','8.4')
+if verLessThan('matlab','8.5') %2014b or earlier
     % no easy way to make MinorTicksValues
      set(gca,'XMinorTick','off')
      minorTickAxes = axes('Position',plot_pos);
      set(minorTickAxes,'XLim',get(plotAxes,'XLim'),'XTick',plt.topotimes,'XTickLabel',[],'YTick',[],'Color','none','ticklength',[0.005 0])
+     axes(plotAxes);%go back to normal plot axes
 elseif verLessThan('matlab','9.0')
-    plotAxes.XRuler.MinorTicks = plt.topotimes;
-else
     plotAxes.XAxis.MinorTickValues = plt.topotimes;
+else 
+    plotAxes.XRuler.MinorTicks = plt.topotimes;
 end
 
 %% Mark the significant portions
