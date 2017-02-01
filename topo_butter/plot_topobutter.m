@@ -1,4 +1,4 @@
-function [varargout] = plot_main(inp_data,inp_times,chanlocs,varargin)
+function [varargout] = plot_topobutter(inp_data,inp_times,chanlocs,varargin)
 % Subfunction:
 % plot_topo
 % plot_butterfly
