@@ -103,9 +103,12 @@ for row = 1:g.n_rows
     data = [];
     sigElecs = {};
     for k = 1:length(plt.topotimes)-1
-        toT = find(inp_times<=plt.topotimes(k+1),1,'last');
-        fromT = find(inp_times>plt.topotimes(k),1,'first');
-        if any(isnan(inp_data(:)))
+        toT = find(inp_times<plt.topotimes(k+1),1,'last');
+        fromT = find(inp_times>=plt.topotimes(k),1,'first');
+        if (fromT-toT) <=1
+            % we only have one element
+            data(k,:) = inp_data(:,fromT,row); 
+        elseif any(isnan(inp_data(:)))
             data(k,:) = nanmedian(inp_data(:,fromT:toT,row),2);
             warning('nans detected, cannot use winsorized Mean. Falling back to nanmedian')
         else
