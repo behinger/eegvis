@@ -240,6 +240,7 @@ for row = 1:g.n_rows
     
     hA.colorbar{row} = c;
     hA.ax_colorbar{row} = ax_colorbar;
+    drawnow
 end
 
 set(gcf,'Color',background_color); % see above, eeglab changes the background color and we have to reset it
