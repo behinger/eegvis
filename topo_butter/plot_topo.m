@@ -1,7 +1,7 @@
 function hA = plot_topo(inp_data,inp_times,chanlocs,varargin)
 g = finputcheck(varargin,...
     {'n_topos','integer',[],15; % How many topos to divide the time in
-    'caxis','integer',[],[]; % custom color-scale
+    'caxis','real',[],[]; % custom color-scale
     'highlighted_channel','integer',[1 1:size(inp_data,1)],[]; % highlight a single channel in the first topoplot
     'pvalues','real',[],[]; % if you want to highlight clusters/electrodes that are significant. Can be 0/1 binairy or p-values, in that case 'topoalpha'(default 0.05) is used as a cutoff
     'time','real',[min(inp_times), max(inp_times)],[]; % specify the time to plot the topoplots in
@@ -63,6 +63,12 @@ for row = 1:g.n_rows
         end
         
         
+    end
+    if ~exist('cbrewer','file')
+        d = which('plot_topo.m');
+        d= fileparts(d);
+        warning('added colorbrewer to path')
+        addpath(fullfile(d,'cbrewer'))
     end
     cMap.topo(row,:,:) = cbrewer(ctype,cname,  100,[]);
     cMap.topo(row,:,:) = cMap.topo(row,end:-1:1,:); % I don't like the way cbrewer sorts the color, we reverse all colormaps

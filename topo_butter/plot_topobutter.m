@@ -41,12 +41,14 @@ end
 
 if strcmp(g.topoplot,'yes')
     ax.topo = axes('Position',[0.05, 0.05,0.95,topoSize-0.05]);axis off;
-    hA.topo = plot_topo(plt.data,plt.time,chanlocs,'parentAxes',ax.topo,varargin{:});
+    g.parentAxes = ax.topo;
+    hA.topo = plot_topo(plt.data,plt.time,chanlocs,g);
     
 end
 if strcmp(g.butterfly,'yes')
     ax.butter = axes('Position',[0.05 topoSize,0.95,1-topoSize-0.05]);axis off;
-    hA.butterfly = plot_butterfly(plt.data(:,:,1),plt.time,'parentAxes',ax.butter,varargin{:});
+    g.parentAxes = ax.butteR;
+    hA.butterfly = plot_butterfly(plt.data(:,:,1),plt.time,g);
 end
 
 plt.f.Position(3) = plt.f.Position(3)*2; % make the initial size bigger
