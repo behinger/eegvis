@@ -47,7 +47,7 @@ if strcmp(g.topoplot,'yes')
 end
 if strcmp(g.butterfly,'yes')
     ax.butter = axes('Position',[0.05 topoSize,0.95,1-topoSize-0.05]);axis off;
-    g.parentAxes = ax.butteR;
+    g.parentAxes = ax.butter;
     hA.butterfly = plot_butterfly(plt.data(:,:,1),plt.time,g);
 end
 
