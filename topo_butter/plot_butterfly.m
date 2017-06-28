@@ -60,7 +60,7 @@ set(plotAxes,'Box','off','YAxisLocation','right') % y axis to the right
 %% Plot minorXTicks at locations of topoplot
 if g.minorXTicks
     set(gca,'XMinorTick','on')
-end
+
 if verLessThan('matlab','8.5') %2014b or earlier
     % no easy way to make MinorTicksValues
      set(gca,'XMinorTick','off')
@@ -72,7 +72,7 @@ elseif verLessThan('matlab','9.0')
 else 
     plotAxes.XRuler.MinorTicks = plt.topotimes;
 end
-
+end
 %% Mark the significant portions
 if ~isempty(g.pvalues)
     % Calculate thresholded values
