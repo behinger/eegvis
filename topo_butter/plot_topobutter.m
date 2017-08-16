@@ -2,7 +2,7 @@ function [varargout] = plot_topobutter(inp_data,inp_times,chanlocs,varargin)
 % Subfunction:
 % plot_topo
 % plot_butterfly
-assert(isnumeric(inp_data));assert(isnumeric(inp_times));assert(isstruct(chanlocs))
+assert(isnumeric(inp_data),'input data was not numeric');assert(isnumeric(inp_times),'times was not numeric');assert(isstruct(chanlocs),'chanlocs were not a structure')
 g = finputcheck(varargin,...
     {'topoplot','string',{'yes','no'},'yes';
     'butterfly','string',{'yes','no'},'yes';
