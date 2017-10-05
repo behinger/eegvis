@@ -12,6 +12,7 @@ g = finputcheck(varargin,...
     'colormap','cell',{},{'div'}; % customized colorbars are possible: {{'div','RdYlBu'},{'div','BrBG'},'seq'}. The whole set of colorbrewer is available
     'n_rows','integer',[1 1:size(inp_data,3)],size(inp_data,3); % number of rows to be used, by default plots one row per third-dimension entry of EEG.data. But it is possible to skip some*
     'numcontour','integer',[],6; % How many contour lines
+    'quality','real',[],80; % The quality of the plot. Higher values => slower plot
     'parentAxes','',[],gca;
     },[],'ignore');
 
@@ -146,15 +147,17 @@ for row = 1:g.n_rows
     % row
     contourvals = linspace(scale(1),scale(2),g.numcontour+2);
     contourvals = contourvals(2:end-1);
-    
+    tic
     for k = 1:length(plt.topotimes)-1
-        
+%         figure
+        toc
+        tic
         topo_image = axes('position',topo_pos(row,k+1,:));% The axes for the data
         topo_init = axes('position',topo_pos(row,k+1,:));% The axes for the contour + head
         
         % Make the initial topoplot
         topoargin = {'maplimits',scale,...
-            'electrodes','off','gridscale',120};
+            'electrodes','off','gridscale',g.quality};
         
         switch g.individualcontour
             case 'yes'
@@ -179,9 +182,15 @@ for row = 1:g.n_rows
         set(findobj(topo_init,'Type','patch'),'FaceColor',background_color) % there is a patch object which hides the pixelated border of the topo-map. Hide it!
         
         % Generate a new axis to plot the imagesc plot
-        axes(topo_image); % in newer matlabversions this can be moved into imagesc, but for backwards compatibility we keep it like this
+        
         uistack(topo_image,'bottom'); %due to the above fix, we have to reorder. axes(topo_image) puts the topo_image axes into the front (which we dont want)
-        h = imagesc(cdata);
+        
+        if verLessThan('matlab','9.0')
+            axes(topo_image); % in newer matlabversions this can be moved into imagesc, but for backwards compatibility we keep it like this
+            h = imagesc(cdata);
+        else
+            h = imagesc(topo_image,cdata);
+        end
         
         set(topo_image,'YDir','normal');
         axis(topo_image,'square','off')
@@ -195,6 +204,7 @@ for row = 1:g.n_rows
         
         hA.topo{row}.image{k} = topo_image;
         hA.topo{row}.lines{k} = topo_init;
+
     end
     
     %% Do the  Colorbars
