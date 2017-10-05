@@ -68,9 +68,11 @@ if verLessThan('matlab','8.5') %2014b or earlier
      set(minorTickAxes,'XLim',get(plotAxes,'XLim'),'XTick',plt.topotimes,'XTickLabel',[],'YTick',[],'Color','none','ticklength',[0.005 0])
      axes(plotAxes);%go back to normal plot axes
 elseif verLessThan('matlab','9.0')
-    plotAxes.XAxis.MinorTickValues = plt.topotimes;
+        plotAxes.XRuler.MinorTicks = plt.topotimes;
 else 
-    plotAxes.XRuler.MinorTicks = plt.topotimes;
+        plotAxes.XAxis.MinorTickValues = plt.topotimes;
+
+
 end
 end
 %% Mark the significant portions
