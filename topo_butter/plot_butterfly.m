@@ -86,7 +86,7 @@ if ~isempty(g.pvalues)
     
     % Mark Single Channels
     for ch = 1:size(plt.data,1)
-        sigConnected = bwlabel(sigTime(ch,:));
+        sigConnected = bwlabel(sigTime(ch,plt.timeidx));
         for sigC = 1:max(sigConnected)
             sigTimeIdx = find(sigConnected == sigC);
             plot(plt.time(sigTimeIdx),plt.data(ch,sigTimeIdx),'k','LineWidth',1.5)
@@ -98,7 +98,7 @@ if ~isempty(g.pvalues)
 
     % Mark rectangular things in the background
     sigAny = any(sigTime,1);
-    sigConnected = bwlabel(sigAny);
+    sigConnected = bwlabel(sigAny(plt.timeidx));
     
     % We need to do this to get anything in the background in matlab
     pvalAreaAxes = axes('Position',plot_pos,'XLim',get(plotAxes,'XLim'),'YLim',get(plotAxes,'YLim'));

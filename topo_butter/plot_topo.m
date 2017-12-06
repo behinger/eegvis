@@ -8,7 +8,7 @@ g = finputcheck(varargin,...
     'topoalpha','real',[],0.05; % change the statistical alpha-value indicating significant electrodes
     'contour','string',{'yes','no'},'yes'; % activate/deactive contour
     'individualcontour','string',{'yes','no'},'no'; % do not put the contour lines on the same value
-    'individualcolormap','string',{'yes','no'},'no'; % do not put the same caxis limit for all colormaps
+    'individualcolorscale','string',{'yes','row','no'},'no'; % do not put the same caxis limit for all colormaps
     'colormap','cell',{},{'div'}; % customized colorbars are possible: {{'div','RdYlBu'},{'div','BrBG'},'seq'}. The whole set of colorbrewer is available
     'n_rows','integer',[1 1:size(inp_data,3)],size(inp_data,3); % number of rows to be used, by default plots one row per third-dimension entry of EEG.data. But it is possible to skip some*
     'numcontour','integer',[],6; % How many contour lines
@@ -133,8 +133,10 @@ for row = 1:g.n_rows
     
     if ~isempty(g.caxis)
         scale = g.caxis;
-    else
-    scale = prctile(data(:),[1 99]);
+    elseif strcmp(g.individualcolorscale,'row')
+        scale = prctile(data(:),[1 99]);
+    elseif strcmp(g.individualcolorscale,'no')
+        scale = prctile(inp_data(:),[0.05 99.95]);
     end
     
     % make scale symmetric for divergent colormaps
@@ -195,8 +197,8 @@ for row = 1:g.n_rows
         set(topo_image,'YDir','normal');
         axis(topo_image,'square','off')
         set(h,'alphadata',~isnan(cdata))
-        switch g.individualcolormap
-            case 'no'
+        switch g.individualcolorscale
+            case {'row','no'}
                 caxis(topo_image,scale)
         end
         % Change the respective colormap
