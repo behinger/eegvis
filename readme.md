@@ -11,5 +11,9 @@ This style was used in [Ehinger et al 2015](http://www.jneurosci.org/content/35/
 Please cite as:
 Ehinger, BV 2018 "EEGVIS toolbox"
 
+
+[![DOI](https://zenodo.org/badge/76262319.svg)](https://zenodo.org/badge/latestdoi/76262319)
+DOI: 10.5281/zenodo.1312813 
+
 ## Licence
 MIT 
