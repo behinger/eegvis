@@ -1,3 +1,4 @@
+
 ## EEG Visualization tools
 There will be never a single visualization that captures all aspects of one's data. But here I will publish scripts, that do show the available data in a good way.
 
@@ -6,4 +7,9 @@ There will be never a single visualization that captures all aspects of one's da
 This style was used in [Ehinger et al 2015](http://www.jneurosci.org/content/35/19/7403). It is useful for timeseries. It combines the benefits of topographies (spatial) with the butterfly (temporal) plots. Thus in the end you can present how the whole timeseries looks and in addition you show how it is spatially relating.
 
 
-### To be added...
+## Citation
+Please cite as:
+Ehinger, BV 2018 "EEGVIS toolbox"
+
+## Licence
+MIT 
