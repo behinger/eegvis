@@ -86,7 +86,7 @@ if ~isempty(g.pvalues)
     
     % Mark Single Channels
     for ch = 1:size(plt.data,1)
-        sigConnected = bwlabel(sigTime(ch,plt.timeidx));
+        sigConnected = bwlabel(sigTime(ch,:));
         for sigC = 1:max(sigConnected)
             sigTimeIdx = find(sigConnected == sigC);
             plot(plt.time(sigTimeIdx),plt.data(ch,sigTimeIdx),'k','LineWidth',1.5)
