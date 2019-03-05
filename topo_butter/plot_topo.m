@@ -230,8 +230,9 @@ for row = 1:g.n_rows
     % happen that one of them is outside the range of the colormap and then
     % not displayed in the colorbar.
     d = 2; %// number of digits
-
+    scale(scale==0) = eps;
     D = 10.^(d-ceil(log10(abs(scale))));
+    
     sRound(1) =ceil( scale(1)*D(2))/D(2);
     sRound(2) =  floor(scale(2)*D(2))/D(2);
     
