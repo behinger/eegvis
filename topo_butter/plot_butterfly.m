@@ -15,10 +15,14 @@ end
 hA = struct; %output axes
 hA.parent = g.parentAxes;
 
+if ~isempty(g.pvalues)
+assert(all(size(g.pvalues) == size(inp_data)),'Pvalues need to be same size as input data (channel x times)')
+end
 %% Define Plotting time and get an idea of what plot_topo is doing
 if isempty(g.time)
     plt.time = inp_times;
     plt.data = inp_data(:,:,1);
+    plt.timeidx = ones(1,size(inp_times,2));
 else
     assert(length(g.time)>1,'error, please provide either no time or two timepoints')
     plt.timeidx = inp_times>g.time(1) & inp_times<g.time(2);
@@ -98,7 +102,8 @@ if ~isempty(g.pvalues)
 
     % Mark rectangular things in the background
     sigAny = any(sigTime,1);
-    sigConnected = bwlabel(sigAny(plt.timeidx));
+    % Be warned, we need the ==1 here... no idea why though
+    sigConnected = bwlabel(sigAny(plt.timeidx==1));
     
     % We need to do this to get anything in the background in matlab
     pvalAreaAxes = axes('Position',plot_pos,'XLim',get(plotAxes,'XLim'),'YLim',get(plotAxes,'YLim'));
