@@ -112,7 +112,7 @@ for row = 1:g.n_rows
     for k = 1:length(plt.topotimes)-1
         toT = find(inp_times<plt.topotimes(k+1),1,'last');
         fromT = find(inp_times>=plt.topotimes(k),1,'first');
-        if (fromT-toT) <=1
+        if (toT-fromT) <=1
             % we only have one element
             data(k,:) = inp_data(:,fromT,row); 
         elseif any(isnan(inp_data(:)))
@@ -158,7 +158,7 @@ for row = 1:g.n_rows
         topo_init = axes('position',topo_pos(row,k+1,:));% The axes for the contour + head
         
         % Make the initial topoplot
-        topoargin = {'maplimits',scale,...
+        topoargin = {'maplimits',scale,'colormap',squeeze(cMap.topo(row,:,:)),...
             'electrodes','off','gridscale',g.quality};
         
         switch g.individualcontour
