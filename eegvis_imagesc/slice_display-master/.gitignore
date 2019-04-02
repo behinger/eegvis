@@ -1,0 +1,9 @@
+# File types to ignore
+
+## Tabular data
+*.csv
+
+## Documents
+*.pdf
+*.docx
+*.eps
