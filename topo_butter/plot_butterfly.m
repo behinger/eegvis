@@ -23,6 +23,8 @@ if isempty(g.time)
     plt.time = inp_times;
     plt.data = inp_data(:,:,1);
     plt.timeidx = ones(1,size(inp_times,2));
+    g.time(1) = inp_times(1);
+    g.time(2) = inp_times(end);
 else
     assert(length(g.time)>1,'error, please provide either no time or two timepoints')
     plt.timeidx = inp_times>g.time(1) & inp_times<=g.time(2);
@@ -32,7 +34,7 @@ else
         g.pvalues = g.pvalues(:,plt.timeidx);
     end
 end
-plt.topotimes = linspace(min(plt.time),max(plt.time),g.n_topos+1);
+plt.topotimes = linspace(g.time(1),g.time(2),g.n_topos+1);
 
 
 %% Define new axes
