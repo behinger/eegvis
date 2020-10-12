@@ -25,7 +25,7 @@ if isempty(g.time)
     plt.timeidx = ones(1,size(inp_times,2));
 else
     assert(length(g.time)>1,'error, please provide either no time or two timepoints')
-    plt.timeidx = inp_times>g.time(1) & inp_times<g.time(2);
+    plt.timeidx = inp_times>g.time(1) & inp_times<=g.time(2);
     plt.time = inp_times(plt.timeidx);
     plt.data = inp_data(:,plt.timeidx,1); % in this function we cut the data here
     if ~isempty(g.pvalues)
