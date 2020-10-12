@@ -28,6 +28,9 @@ else
     plt.timeidx = inp_times>g.time(1) & inp_times<g.time(2);
     plt.time = inp_times(plt.timeidx);
     plt.data = inp_data(:,plt.timeidx,1); % in this function we cut the data here
+    if ~isempty(g.pvalues)
+        g.pvalues = g.pvalues(:,plt.timeidx);
+    end
 end
 plt.topotimes = linspace(min(plt.time),max(plt.time),g.n_topos+1);
 
@@ -102,8 +105,8 @@ if ~isempty(g.pvalues)
 
     % Mark rectangular things in the background
     sigAny = any(sigTime,1);
-    % Be warned, we need the ==1 here... no idea why though
-    sigConnected = bwlabel(sigAny(plt.timeidx==1));
+    
+    sigConnected = bwlabel(sigAny);
     
     % We need to do this to get anything in the background in matlab
     pvalAreaAxes = axes('Position',plot_pos,'XLim',get(plotAxes,'XLim'),'YLim',get(plotAxes,'YLim'));
